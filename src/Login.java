@@ -36,6 +36,7 @@ public class Login extends javax.swing.JFrame {
         login = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login - RESTO");
         setResizable(false);
         getContentPane().setLayout(null);
 
