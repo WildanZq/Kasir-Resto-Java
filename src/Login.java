@@ -1,3 +1,11 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -85,7 +93,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
         getContentPane().add(login);
-        login.setBounds(210, 150, 240, 30);
+        login.setBounds(210, 150, 240, 40);
 
         setSize(new java.awt.Dimension(495, 245));
         setLocationRelativeTo(null);
@@ -96,7 +104,26 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameActionPerformed
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-        // TODO add your handling code here:
+        Connection connection;
+        PreparedStatement ps;
+        try{
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/pbo_resto?zeroDateTimeBehavior=convertToNull","root","");
+            ps = connection.prepareStatement("SELECT username,password FROM admin WHERE username = '"+username.getText()+"' AND password = '"+password.getText()+"'");
+            ResultSet result = ps.executeQuery();
+            System.out.println(result);
+            if(result.next()){
+                new Transaksi().show();
+                this.dispose();
+            }
+            else {
+                JOptionPane.showMessageDialog(rootPane, "Salah !");
+                password.setText("");
+                username.requestFocus();
+            }
+        } catch (SQLException ex){
+            System.out.println(ex.toString());
+            JOptionPane.showMessageDialog(rootPane, "gagal");
+        }
     }//GEN-LAST:event_loginActionPerformed
 
     /**
